@@ -1,9 +1,6 @@
 package com.zipcodewilmington.arrayutility;
 
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by leon on 3/6/18.
@@ -44,8 +41,16 @@ public class ArrayUtility<T> {
         return count;
     }
 
-    public Integer[] getMostCommonFromMerge(Integer[] arrayToMerge) {
-        return arrayToMerge;
+    public T getMostCommonFromMerge(T[] arrayToMerge) {
+        Map<T, Integer> mostCommon = new HashMap<>();
+
+        Arrays.stream(inputArray).forEach(element -> mostCommon.merge(element, 1, Integer::sum));
+        Arrays.stream(arrayToMerge).forEach(element -> mostCommon.merge(element, 1, Integer::sum));
+
+        return mostCommon.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse(null);
     }
 
 
